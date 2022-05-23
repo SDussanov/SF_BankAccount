@@ -4,6 +4,7 @@ public class Account {
 
     private int id;
     private int amount;
+    private int status;
     private static final String URL = "jdbc:postgresql://localhost/bank?user=postgres&password=1234";
 
     public Account(int id) {
@@ -51,10 +52,9 @@ public class Account {
         }
     }
 
-    public void takeMoney(int amount) {
+    public int takeMoney(int amount) {
         try (Connection connection = DriverManager.getConnection(URL)) {
             int currentAmount = this.getBalance();
-
 
             if (currentAmount - amount >= 0){
                 String sql = "UPDATE ACCOUNTS SET AMOUNT = ? WHERE ID = ?";
@@ -68,14 +68,17 @@ public class Account {
                 connection.close();
                 preparedStatement.close();
                 this.amount = (currentAmount - amount);
+                this.status = 1;
             } else {
                 System.out.println("У вас недостаточно средств!");
+                this.status = 0;
             }
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return this.status;
     }
 }
 
