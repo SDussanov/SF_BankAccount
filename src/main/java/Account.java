@@ -135,7 +135,6 @@ public class Account {
                 psTransaction.setInt(1, this.id);
                 psTransaction.setInt(2, amount);
                 psTransaction.setDate(3, new java.sql.Date(System.currentTimeMillis()));
-                ;
 
                 psTransaction.executeUpdate();
                 System.out.println("Добавил данные о транзакции в базу данных");
@@ -177,19 +176,37 @@ public class Account {
                 preparedStatement2.executeUpdate();
                 System.out.println(String.format("ИД %s Сумма обновлена с %s на %s", receiveId, receiveAmount, (receiveAmount + amount)));
 
-                String sqlTransaction = "INSERT INTO TRANSFERS (SEND_ID, RECEIVE_ID, AMOUNT, DATE) VALUES (?, ?, ?, ?)";
-                PreparedStatement psTransaction = connection.prepareStatement(sqlTransaction);
-                psTransaction.setInt(1, this.id);
-                psTransaction.setInt(2, receiveId);
-                psTransaction.setInt(3, amount);
-                psTransaction.setDate(4, new java.sql.Date(System.currentTimeMillis()));
-                ;
+                String sqlTransaction1 = "INSERT INTO TRANSFERS (SEND_ID, RECEIVE_ID, AMOUNT, DATE) VALUES (?, ?, ?, ?)";
+                PreparedStatement psTransaction1 = connection.prepareStatement(sqlTransaction1);
+                psTransaction1.setInt(1, this.id);
+                psTransaction1.setInt(2, receiveId);
+                psTransaction1.setInt(3, amount);
+                psTransaction1.setDate(4, new java.sql.Date(System.currentTimeMillis()));
 
-                psTransaction.executeUpdate();
+                psTransaction1.executeUpdate();
+
+                String sqlTransaction2 = "INSERT INTO OPERATIONS (ID_ACCOUNT, TYPE, AMOUNT, DATE) VALUES (?, 4, ?, ?)";
+                PreparedStatement psTransaction2 = connection.prepareStatement(sqlTransaction2);
+                psTransaction2.setInt(1, this.id);
+                psTransaction2.setInt(2, amount);
+                psTransaction2.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+
+                psTransaction2.executeUpdate();
+
+                String sqlTransaction3 = "INSERT INTO OPERATIONS (ID_ACCOUNT, TYPE, AMOUNT, DATE) VALUES (?, 3, ?, ?)";
+                PreparedStatement psTransaction3 = connection.prepareStatement(sqlTransaction3);
+                psTransaction3.setInt(1, receiveId);
+                psTransaction3.setInt(2, amount);
+                psTransaction3.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+
+                psTransaction3.executeUpdate();
+
                 System.out.println("Добавил данные о транзакции в базу данных");
 
                 connection.close();
-                psTransaction.close();
+                psTransaction1.close();
+                psTransaction2.close();
+                psTransaction3.close();
                 preparedStatement1.close();
                 preparedStatement2.close();
                 this.amount = (currentAmount - amount);
