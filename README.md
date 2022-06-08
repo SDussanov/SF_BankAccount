@@ -63,13 +63,17 @@ http://localhost:4567/getOperationList/{ID}/{DATE}/{DATE}
 получить сведения о пополнениях с первой входящей даты и по вторую входящую дату
 
 Статусы операций:
+
 1 - пополнение на баланс
+
 2 - снятие с баланса
+
 3 - получение на баланс путем перевода денег
+
 4 - снятие с баланса путем перевода денег
 
-![](../accounts.jpg)
+![accounts](https://user-images.githubusercontent.com/78420669/172573050-d48f6891-8aba-4fbc-a630-638a239301a3.jpg)
 
-![](../operations.jpg)
+![operations](https://user-images.githubusercontent.com/78420669/172573099-f4e8c4fc-7b38-4792-a433-7c38c5b1b99e.jpg)
 
-![](../transfers.jpg)
+![transfers](https://user-images.githubusercontent.com/78420669/172573129-59712c28-0421-4565-afcd-cddab2977fde.jpg)
